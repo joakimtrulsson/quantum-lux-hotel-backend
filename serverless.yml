@@ -10,7 +10,7 @@ provider:
     role: ${env:LAMBDA_ROLE}
   deploymentMethod: direct
   environment:
-    DYNAMODB_ROOMs_TABLE: roomsDb
+    DYNAMODB_ROOMS_TABLE: roomsDb
     DYNAMODB_BOOKINGS_TABLE: bookingsDb
     DYNAMODB_USERS_TABLE: usersDb
     DYNAMODB_REGION: 'eu-north-1'
@@ -21,6 +21,9 @@ plugins:
 
 package:
   individually: true
+
+  patterns:
+    - src/functions/protected/createRooms/data/roomsData.json
 
 functions:
   getAvailableRoomsByDate:
