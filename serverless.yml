@@ -1,0 +1,105 @@
+service: quantum-lux-hotel-backend
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-north-1
+  profile: ${env:PROFILE}
+  iam:
+    role: ${env:LAMBDA_ROLE}
+  deploymentMethod: direct
+  environment:
+    DYNAMODB_ROOMs_TABLE: roomsDb
+    DYNAMODB_BOOKINGS_TABLE: bookingsDb
+    DYNAMODB_USERS_TABLE: usersDb
+    DYNAMODB_REGION: 'eu-north-1'
+useDotenv: true
+
+plugins:
+  - serverless-webpack
+
+package:
+  individually: true
+
+functions:
+  getAvailableRoomsByDate:
+    handler: src/functions/getAvailableRoomsByDate/index.handler
+    events:
+      - httpApi:
+          path: '/api/search/rooms'
+          method: GET
+
+  # PROTECTED ROUTES
+  createRooms:
+    handler: src/functions/protected/createRooms/index.handler
+    events:
+      - httpApi:
+          path: '/api/createRooms'
+          method: POST
+  postBooking:
+    handler: src/functions/protected/postBooking/index.handler
+    events:
+      - httpApi:
+          path: '/api/booking'
+          method: POST
+  getAllBookings:
+    handler: src/functions/protected/getAllBookings/index.handler
+    events:
+      - httpApi:
+          path: '/api/admin/search/booking'
+          method: GET
+  getBooking:
+    handler: src/functions/protected/getBooking/index.handler
+    events:
+      - httpApi:
+          path: '/api/search/booking/{bookingId}'
+          method: GET
+  updateBooking:
+    handler: src/functions/protected/updateBooking/index.handler
+    events:
+      - httpApi:
+          path: '/api/search/booking/{bookingId}'
+          method: PATCH
+  deleteBooking:
+    handler: src/functions/protected/deleteBooking/index.handler
+    events:
+      - httpApi:
+          path: '/api/search/booking/{bookingId}'
+          method: DELETE
+
+resources:
+  Resources:
+    bookingsDb:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: bookingsDb
+        AttributeDefinitions:
+          - AttributeName: bookingId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: bookingId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    roomsDb:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: roomsDb
+        AttributeDefinitions:
+          - AttributeName: roomId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: roomId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    usersDb:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersDb
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
