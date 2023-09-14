@@ -5,11 +5,7 @@ const readJsonFromS3 = require('../../../utils/readJsonFromS3Bucket');
 
 exports.handler = async (event, context) => {
   try {
-    const roomsData = await readJsonFromS3('myroomsbucket', 'roomsData.json')
-      .then((data) => {
-        return data;
-      })
-      .catch((error) => console.error(error));
+    const roomsData = await readJsonFromS3('myroomsbucket', 'roomsData.json');
 
     const request = roomsData.map((room) => {
       return {

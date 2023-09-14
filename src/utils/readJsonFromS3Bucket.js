@@ -15,6 +15,7 @@ async function readJsonFromS3(bucket, key) {
     return jsonData;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
