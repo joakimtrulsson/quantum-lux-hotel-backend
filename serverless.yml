@@ -31,7 +31,7 @@ functions:
     events:
       - httpApi:
           path: '/api/search/rooms'
-          method: GET
+          method: POST
 
   # PROTECTED ROUTES
   createRooms:
@@ -95,6 +95,13 @@ resources:
           - AttributeName: roomId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        # GlobalSecondaryIndexes:
+        #   - IndexName: AvailableRoomsIndex # Namnet på GSI
+        #     KeySchema:
+        #       - AttributeName: availableDates
+        #         KeyType: HASH
+        #     Projection:
+        #       ProjectionType: ALL
     usersDb:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -106,3 +113,25 @@ resources:
           - AttributeName: email
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+    hotelAvailableDatesDb:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: hotelAvailableDatesDb
+        AttributeDefinitions:
+          - AttributeName: availableDate
+            AttributeType: N
+          - AttributeName: roomId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: availableDate
+            KeyType: RANGE
+          - AttributeName: roomId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+  # Outputs:
+  #   roomsDbArn:
+  #     Value:
+  #       Fn::GetAtt:
+  #         - roomsDb
+  #         - Arn

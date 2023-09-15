@@ -1,0 +1,354 @@
+[
+  {
+    "roomId": "1",
+    "availableDate": 1678636800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1678723200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1678809600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1678896000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1678982400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679068800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679155200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679241600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679328000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679414400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679500800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679587200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679673600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679760000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679846400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1679932800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680019200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680105600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680192000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680278400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680364800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680451200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680537600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680624000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680710400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680796800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680883200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1680969600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681056000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681142400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681228800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681315200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681401600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681488000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681574400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681660800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681747200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681833600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1681920000000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1682006400000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1682092800000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1682179200000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1682265600000
+  },
+  {
+    "roomId": "1",
+    "availableDate": 1682352000000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1678636800000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1678723200000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1678809600000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1678896000000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1678982400000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1679068800000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1679673600000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1679760000000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1679846400000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1679932800000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1680019200000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1680105600000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1680192000000
+  },
+  {
+    "roomId": "2",
+    "availableDate": 1680278400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1678636800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1678723200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1678809600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1678896000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1678982400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679068800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679155200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679241600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679328000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679414400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679500800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679587200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679673600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679760000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679846400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1679932800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680019200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680105600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680192000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680278400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680364800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680451200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680537600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680624000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680710400000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680796800000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680883200000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1680969600000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1681056000000
+  },
+  {
+    "roomId": "3",
+    "availableDate": 1681142400000
+  }
+]

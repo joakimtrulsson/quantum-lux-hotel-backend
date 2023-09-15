@@ -23,13 +23,35 @@ exports.handler = async (event, context) => {
         ReturnConsumedCapacity: 'TOTAL',
       })
       .promise();
-    console.log(result);
+
+    // const availableDates = await readJsonFromS3('myroomsbucket', 'availableDates.json');
+
+    // const requestDates = availableDates.map((date) => ({
+    //   PutRequest: {
+    //     Item: {
+    //       roomId: { S: date.roomId.toString() }, // roomId antas vara en sträng
+    //       availableDate: { N: date.availableDate }, // availableDate antas vara en sträng
+    //     },
+    //   },
+    // }));
+    // console.log(requestDates);
+
+    // const resultDates = await db
+    //   .batchWrite({
+    //     RequestItems: {
+    //       ['hotelAvailableDatesDb']: requestDates,
+    //     },
+    //     ReturnConsumedCapacity: 'TOTAL',
+    //   })
+    //   .promise();
+
+    // console.log('wow');
 
     if (result.UnprocessedItems.roomDb) {
       return sendError(500, { success: false, message: 'All rooms could not be created.' });
     }
 
-    return sendResponse(200, { success: true, message: 'All rooms have been created.' });
+    return sendResponse(200, { success: true, message: 'All rooms and have been created.' });
   } catch (error) {
     return sendError(500, { success: false, error: error });
   }
