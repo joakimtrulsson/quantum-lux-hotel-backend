@@ -113,20 +113,20 @@ resources:
           - AttributeName: email
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-    hotelAvailableDatesDb:
+    availableDatesDb:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: hotelAvailableDatesDb
+        TableName: availableDatesDb
         AttributeDefinitions:
-          - AttributeName: availableDate
-            AttributeType: N
           - AttributeName: roomId
             AttributeType: S
-        KeySchema:
           - AttributeName: availableDate
-            KeyType: RANGE
+            AttributeType: N
+        KeySchema:
           - AttributeName: roomId
             KeyType: HASH
+          - AttributeName: availableDate
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 
   # Outputs:

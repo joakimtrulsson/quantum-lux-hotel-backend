@@ -1,57 +1,56 @@
-const { sendResponse, sendError } = require('../../../responses/index');
 const { db } = require('../../../services/index');
 
+const { sendResponse, sendError } = require('../../../responses/index');
 const readJsonFromS3 = require('../../../utils/readJsonFromS3Bucket');
+const chunkArray = require('../../../utils/chunkArray');
 
 exports.handler = async (event, context) => {
   try {
     const roomsData = await readJsonFromS3('myroomsbucket', 'roomsData.json');
+    const availableDates = await readJsonFromS3('myroomsbucket', 'availableDates.json');
 
-    const request = roomsData.map((room) => {
-      return {
-        PutRequest: {
-          Item: room,
-        },
-      };
-    });
+    const roomsRequest = roomsData.map((room) => ({
+      PutRequest: {
+        Item: room,
+      },
+    }));
 
-    const result = await db
-      .batchWrite({
-        RequestItems: {
-          ['roomsDb']: request,
-        },
-        ReturnConsumedCapacity: 'TOTAL',
-      })
-      .promise();
+    const datesRequests = availableDates.map((date) => ({
+      PutRequest: {
+        Item: date,
+      },
+    }));
 
-    // const availableDates = await readJsonFromS3('myroomsbucket', 'availableDates.json');
+    const chunkedRoomsRequests = chunkArray(roomsRequest, 25);
+    const chunkedDatesRequests = chunkArray(datesRequests, 25);
 
-    // const requestDates = availableDates.map((date) => ({
-    //   PutRequest: {
-    //     Item: {
-    //       roomId: { S: date.roomId.toString() }, // roomId antas vara en sträng
-    //       availableDate: { N: date.availableDate }, // availableDate antas vara en sträng
-    //     },
-    //   },
-    // }));
-    // console.log(requestDates);
+    for (const chunk of chunkedRoomsRequests) {
+      const result = await db
+        .batchWrite({
+          RequestItems: {
+            ['roomsDb']: chunk,
+          },
+          ReturnConsumedCapacity: 'TOTAL',
+        })
+        .promise();
 
-    // const resultDates = await db
-    //   .batchWrite({
-    //     RequestItems: {
-    //       ['hotelAvailableDatesDb']: requestDates,
-    //     },
-    //     ReturnConsumedCapacity: 'TOTAL',
-    //   })
-    //   .promise();
-
-    // console.log('wow');
-
-    if (result.UnprocessedItems.roomDb) {
-      return sendError(500, { success: false, message: 'All rooms could not be created.' });
+      if (result.UnprocessedItems.roomDb) {
+        return sendError(500, { success: false, message: 'All rooms could not be created.' });
+      }
     }
 
-    return sendResponse(200, { success: true, message: 'All rooms and have been created.' });
+    for (const chunk of chunkedDatesRequests) {
+      const result = await db
+        .batchWrite({
+          RequestItems: {
+            ['availableDatesDb']: chunk,
+          },
+          ReturnConsumedCapacity: 'TOTAL',
+        })
+        .promise();
+    }
+
+    return sendResponse(200, { success: true, message: 'All rooms and dates have been created.' });
   } catch (error) {
     return sendError(500, { success: false, error: error });
   }
