@@ -18,6 +18,7 @@ useDotenv: true
 
 plugins:
   - serverless-webpack
+  - serverless-dotenv-plugin
 
 package:
   individually: true
@@ -40,6 +41,15 @@ functions:
       - httpApi:
           path: '/api/createRooms'
           method: POST
+
+  # USER ROUTES
+  signUpUser:
+    handler: src/functions/user/signUpUser/index.handler
+    events:
+      - httpApi:
+          path: '/api/user/signup'
+          method: POST
+
   postBooking:
     handler: src/functions/protected/postBooking/index.handler
     events:
@@ -106,3 +116,10 @@ resources:
           - AttributeName: email
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: EmailIndex # Namnet på GSI
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL

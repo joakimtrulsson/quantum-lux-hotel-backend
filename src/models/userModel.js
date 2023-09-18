@@ -1,8 +1,8 @@
 const User = {
   userId: '',
-  username: '',
   email: '',
   password: '',
+  passwordConfirm: '',
   firstName: '',
   lastName: '',
   createdAt: '',
