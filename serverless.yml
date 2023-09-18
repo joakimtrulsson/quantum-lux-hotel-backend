@@ -49,6 +49,12 @@ functions:
       - httpApi:
           path: '/api/user/signup'
           method: POST
+  signInUser:
+    handler: src/functions/user/signInUser/index.handler
+    events:
+      - httpApi:
+          path: '/api/user/signin'
+          method: POST
 
   postBooking:
     handler: src/functions/protected/postBooking/index.handler
