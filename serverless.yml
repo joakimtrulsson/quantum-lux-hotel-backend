@@ -23,8 +23,8 @@ plugins:
 package:
   individually: true
 
-  patterns:
-    - src/functions/protected/createRooms/data/roomsData.json
+  # patterns:
+  #   - src/functions/protected/createRooms/data/roomsData.json
 
 functions:
   getAvailableRoomsByDate:
@@ -35,12 +35,18 @@ functions:
           method: GET
 
   # PROTECTED ROUTES
-  createRooms:
-    handler: src/functions/protected/createRooms/index.handler
+  # createRooms:
+  #   handler: src/functions/protected/createRooms/index.handler
+  #   events:
+  #     - httpApi:
+  #         path: '/api/createRooms'
+  #         method: POST
+  getMe:
+    handler: src/functions/protected/getMe/index.handler
     events:
       - httpApi:
-          path: '/api/createRooms'
-          method: POST
+          path: '/api/user'
+          method: GET
 
   # USER ROUTES
   signUpUser:

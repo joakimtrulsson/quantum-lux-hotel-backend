@@ -35,12 +35,12 @@ exports.handler = async (event, context) => {
     userData.Item.password = undefined;
     userData.Item.passwordConfirm = undefined;
 
-    const token = createToken(userData);
+    const token = createToken(userData.Item);
 
     return sendResponse(200, {
       success: true,
       message: 'You have successfully signed in.',
-      userData,
+      userData: userData.Item,
       token,
     });
   } catch (error) {

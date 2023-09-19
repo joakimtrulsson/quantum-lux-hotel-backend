@@ -2,7 +2,7 @@ const User = {
   userId: '',
   email: '',
   password: '',
-  passwordConfirm: '',
+  // passwordConfirm: '',
   firstName: '',
   lastName: '',
   createdAt: '',

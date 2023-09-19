@@ -47,11 +47,10 @@ exports.handler = async (event, context) => {
     };
 
     await db.put(params).promise();
-
-    newUser.password = undefined;
     newUser.passwordConfirm = undefined;
+    newUser.password = undefined;
 
-    const token = createToken(newUser);
+    const token = createToken(newUser.Item);
 
     return sendResponse(200, {
       success: true,
