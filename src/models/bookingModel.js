@@ -1,12 +1,9 @@
 const Booking = {
   bookingId: '',
-  checkIn: '',
-  checkOut: '',
+  dates: [],
   totalGuests: 0,
   totalCost: 0,
   bookedRooms: [],
-  userId: '',
-  username: '',
   userEmail: '',
   createdAt: '',
   updatedAt: '',

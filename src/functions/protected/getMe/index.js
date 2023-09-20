@@ -23,9 +23,6 @@ async function getAccount(email) {
 
 const handler = middy(async (event) => {
   try {
-    if (!event?.email || (event?.error && event?.error === '401'))
-      return sendError(401, { success: false, message: 'Invalid token.' });
-
     const account = await getAccount(event.email);
 
     if (!account) return sendError(401, { success: false, message: 'No account found.' });
