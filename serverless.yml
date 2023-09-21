@@ -13,7 +13,7 @@ provider:
     DYNAMODB_ROOMS_TABLE: roomsDb
     DYNAMODB_BOOKINGS_TABLE: bookingsDb
     DYNAMODB_USERS_TABLE: usersDb
-    DYNAMODB_DATES_TABLE: availableRoomDateDb
+    DYNAMODB_DATES_TABLE: availableDatesDb
     DYNAMODB_REGION: 'eu-north-1'
 useDotenv: true
 
@@ -145,9 +145,18 @@ resources:
             AttributeType: S
           - AttributeName: roomId
             AttributeType: S
+          - AttributeName: id
+            AttributeType: S
         KeySchema:
           - AttributeName: availableDate
             KeyType: HASH
           - AttributeName: roomId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: availableDateId
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL

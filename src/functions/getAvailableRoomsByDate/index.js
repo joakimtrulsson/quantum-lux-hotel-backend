@@ -1,58 +1,6 @@
 const { sendResponse, sendError } = require('../../responses/index');
 const { db } = require('../../services/index');
-
-function getDateArray(checkIn, checkOut) {
-  const dateArray = [];
-  const currentDate = new Date(checkIn);
-
-  while (currentDate <= new Date(checkOut)) {
-    dateArray.push(currentDate.toISOString());
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  return dateArray;
-}
-
-async function findAvailableRooms(checkIn, checkOut) {
-  const dateArray = getDateArray(checkIn, checkOut);
-  console.log('datearray', dateArray);
-
-  const params = {
-    TableName: 'availableDatesDb',
-    FilterExpression: 'availableDate BETWEEN :startDate AND :endDate',
-    ExpressionAttributeValues: {
-      ':startDate': checkIn,
-      ':endDate': checkOut,
-    },
-  };
-
-  const result = await db.scan(params).promise();
-  const allRooms = result.Items;
-
-  const availableRooms = [];
-
-  const uniqueRoomIds = new Set();
-
-  for (const date of dateArray) {
-    const filteredItems = allRooms.filter((item) => item.availableDate === date);
-
-    filteredItems.forEach((item) => uniqueRoomIds.add(item.roomId));
-  }
-
-  const uniqueRoomIdsArray = Array.from(uniqueRoomIds);
-
-  for (const roomId of uniqueRoomIdsArray) {
-    if (
-      dateArray.every((date) =>
-        allRooms.some((item) => item.availableDate === date && item.roomId === roomId)
-      )
-    ) {
-      availableRooms.push(roomId);
-    }
-  }
-
-  return availableRooms;
-}
+const { findAvailableRooms } = require('../../utils/bookingUtils');
 
 exports.handler = async (event, context) => {
   try {
