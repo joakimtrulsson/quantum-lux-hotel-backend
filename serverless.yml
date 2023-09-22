@@ -73,7 +73,7 @@ functions:
     handler: src/functions/protected/getAllBookings/index.handler
     events:
       - httpApi:
-          path: '/api/admin/search/booking'
+          path: '/api/search/search/booking'
           method: GET
   getBooking:
     handler: src/functions/protected/getBooking/index.handler
@@ -103,10 +103,19 @@ resources:
         AttributeDefinitions:
           - AttributeName: bookingId
             AttributeType: S
+          - AttributeName: user
+            AttributeType: S
         KeySchema:
           - AttributeName: bookingId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: bookingUserIndex
+            KeySchema:
+              - AttributeName: user
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
     roomsDb:
       Type: AWS::DynamoDB::Table
       Properties:

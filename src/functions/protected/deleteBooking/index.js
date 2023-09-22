@@ -1,37 +1,84 @@
+const middy = require('@middy/core');
+const { nanoid } = require('nanoid');
+
 const { sendResponse, sendError } = require('../../../responses/index');
 const { db } = require('../../../services/index');
+const { validateToken } = require('../../../middleware/validateToken');
 
-// const moment = require('moment');
+const handler = middy(async (event, context) => {
+  try {
+    const {
+      email,
+      pathParameters: { bookingId },
+    } = event;
 
-exports.handler = async (event, context) => {
-  // const { bookingId } = event.pathParameters;
-  // const params = {
-  //   TableName: process.env.DYNAMODB_BOOKING_TABLE,
-  //   Key: {
-  //     bookingId: bookingId,
-  //   },
-  // };
-  // try {
-  //   const booking = await db.get(params).promise();
-  //   if (!booking.Item) {
-  //     return sendError(404, { success: false, message: 'Booking not found' });
-  //   }
-  //   const date = moment();
-  //   const currentDateStr = date.format('YYYY/MM/DD');
-  //   const checkInDate = new Date(booking.Item.checkIn);
-  //   const currentDate = new Date(currentDateStr);
-  //   const dateDifference = checkInDate.getTime() - currentDate.getTime();
-  //   const calculateDaysDifference = dateDifference / (1000 * 3600 * 24);
-  //   if (calculateDaysDifference < 2) {
-  //     return sendError(400, {
-  //       success: false,
-  //       message: 'Booking can only be deleted two days or more in advance',
-  //     });
-  //   }
-  //   await db.delete(params).promise();
-  //   return sendResponse(200, { success: true, message: 'Booking deleted' });
-  // } catch (error) {
-  //   console.log(error);
-  //   return sendError(500, { success: false, message: 'Could not delete booking' });
-  // }
-};
+    const params = {
+      TableName: process.env.DYNAMODB_BOOKINGS_TABLE,
+      Key: {
+        bookingId: bookingId,
+      },
+    };
+
+    const { Item: booking } = await db.get(params).promise();
+
+    if (!booking) {
+      return sendError(404, { success: false, message: 'Booking not found.' });
+    }
+
+    if (booking.user !== email) {
+      return sendError(403, {
+        success: false,
+        message: 'Access denied. You do not have permission to delete this booking.',
+      });
+    }
+
+    const { dates: datesToSave, bookedRooms: roomsToSave } = booking;
+    const newAvailableDates = datesToSave.flatMap((date) =>
+      roomsToSave.map((roomId) => ({
+        availableDate: date,
+        roomId: roomId,
+        id: nanoid(6),
+      }))
+    );
+
+    const saveRequest = newAvailableDates.map((date) => {
+      return {
+        PutRequest: {
+          Item: date,
+        },
+      };
+    });
+
+    const result = await db
+      .batchWrite({
+        RequestItems: {
+          [process.env.DYNAMODB_DATES_TABLE]: saveRequest,
+        },
+        ReturnConsumedCapacity: 'TOTAL',
+      })
+      .promise();
+
+    if (result.UnprocessedItems.roomDb) {
+      return sendError(500, { success: false, message: 'All dates could not be saved.' });
+    }
+
+    const deleteParams = {
+      TableName: process.env.DYNAMODB_BOOKINGS_TABLE,
+      Key: {
+        bookingId: bookingId,
+      },
+    };
+    await db.delete(deleteParams).promise();
+
+    return sendResponse(200, {
+      success: true,
+      newAvailableDates,
+      message: 'Booking deleted successfully.',
+    });
+  } catch (error) {
+    console.error(error);
+    return sendError(500, { success: false, message: 'Could not delete the booking.' });
+  }
+}).use(validateToken);
+
+module.exports = { handler };
