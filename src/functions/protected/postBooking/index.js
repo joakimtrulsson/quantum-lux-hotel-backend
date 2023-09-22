@@ -18,8 +18,6 @@ const handler = middy(async (event) => {
   try {
     const { roomId, checkIn, checkOut, totalGuests } = JSON.parse(event.body);
 
-    // 1) Först vill vi kontrollera så roomId fortfarande ledigt enligt checkIn och checkOut
-
     const availableRoomsIds = await findAvailableRooms(checkIn, checkOut);
     console.log(roomId, availableRoomsIds);
     const isRoomsStilAvailable = areArraysEqual(availableRoomsIds, roomId);
@@ -30,9 +28,6 @@ const handler = middy(async (event) => {
         message:
           'The rooms you are trying to book have become unavailable. Please choose different dates or rooms.',
       });
-
-    // 2) Sen vill vi kontrollera att antalet gäster inte är fler än maxguests.
-    // 2a) Först måste vi hämta price och addera maxGuests för varje rum.
 
     const params = {
       RequestItems: {
@@ -46,8 +41,6 @@ const handler = middy(async (event) => {
 
     const maxGuestsPerBooking = calculateTotalMaxGuests(roomDetails);
 
-    // 2b) Kontrollera att totalGuest <= maxGuests
-
     if (!validateGuestCountForRooms(maxGuestsPerBooking, totalGuests)) {
       return sendResponse(400, {
         success: false,
@@ -55,15 +48,9 @@ const handler = middy(async (event) => {
       });
     }
 
-    // 3 a) Räkna ut hur många dagar
     const { length: totalDays } = getDateArray(checkIn, checkOut);
     const totalNights = totalDays - 1;
-
-    // 3 b) Räkna ut totalkostanden
-
     const totalPrice = calculateTotalPrice(roomDetails, totalNights);
-
-    // 4) Sen vill vi skapa objektet som skall sparas. NanoId för id på beställningen.
 
     const bookingId = nanoid(8);
 
@@ -79,8 +66,6 @@ const handler = middy(async (event) => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    console.log(newBooking);
-    // 5) Sen kan vi spara objektet.
 
     const bookingParams = {
       TableName: 'bookingsDb',
@@ -89,16 +74,10 @@ const handler = middy(async (event) => {
 
     const result = await db.put(bookingParams).promise();
 
-    //  6) Nu kan vi plocka bort dates från availableDatesDb.
-    //  6a) Hämta id för de datum och rum bokningen gäller. checkIn, checkOut, roomId
     const datesIds = await findDatesId(checkIn, checkOut, roomId);
 
-    //  6b) Plocka bort de från databasen
-    // roomId partitionkey,
     const sortKeys = roomId;
     const primaryKeys = getDateArray(checkIn, checkOut);
-    console.log('sortkey', sortKeys);
-    console.log('primary', primaryKeys);
 
     const deleteRequests = primaryKeys.flatMap((date) =>
       sortKeys.map((roomId) => ({
