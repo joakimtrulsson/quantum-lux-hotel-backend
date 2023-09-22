@@ -23,7 +23,7 @@ För att komma igång med Quantum Lux Hotel Booking System, följ de här stegen
 
 1. **Klona projektet:** `git clone https://github.com/joakimtrulsson/quantum-lux-hotel-backend`
 2. **Installera beroenden:** `npm install`
-3. **Konfigurera miljövariabler:** Skapa en `.env`-fil med nödvändiga miljövariabler (se `.env.example` för exempel).
+3. **Konfigurera miljövariabler:** Skapa en `.env`-fil med nödvändiga miljövariabler.
 4. **Lokal utveckling:** Kör `npm run dev` för att starta projektet i lokal utvecklingsläge.
 5. **Deploy till AWS:** Använd Serverless Framework för att distribuera projektet till AWS.
 
